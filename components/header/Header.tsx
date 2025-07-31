@@ -6,6 +6,7 @@ import { Settings, ChevronDown, Sun, Moon, Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { themeColors, transitions } from "@/lib/theme"
 import { useWallet } from "@/hooks/useWallet"
+import { NAVIGATION_ITEMS } from "@/lib/constants"
 import {
   Sheet,
   SheetContent,
@@ -19,15 +20,6 @@ interface HeaderProps {
   isDarkMode: boolean
   onThemeToggle: () => void
 }
-
-const navigationItems = [
-  { name: "Swap", href: "#", isActive: true, icon: "swap" },
-  { name: "Trade", href: "#", icon: "trade" },
-  { name: "Perps", href: "#", icon: "perps" },
-  { name: "OPerps", href: "#", icon: "operps" },
-  { name: "Refer", href: "#", icon: "users" },
-  { name: "Learn", href: "#", icon: "learn" },
-]
 
 export function Header({ isDarkMode, onThemeToggle }: HeaderProps) {
   const themeClasses = isDarkMode ? themeColors.dark : themeColors.light
@@ -43,28 +35,28 @@ export function Header({ isDarkMode, onThemeToggle }: HeaderProps) {
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <Link href="/">
-          <Icon name="logo" size={126} />
+            <Icon name="logo" size={126} />
           </Link>
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          {navigationItems.map((item) => (
+          {NAVIGATION_ITEMS.map((item) => (
             <div key={item.name} className="flex items-center space-x-2">
               <NavigationIcon 
                 icon={item.icon} 
                 size={20} 
                 className={isDarkMode ? "text-[#a5a5a6]" : "text-[#121518CC]"}
               />
-                          <a
-              href={item.href}
-              className={cn(
-                "font-manrope font-[800] text-md ",
-                item.isActive 
-                  ? "text-[#2ED3B7]" 
-                  : cn(themeClasses.textSecondary, "hover:" + themeClasses.text, transitions.default)
-              )}
-            >
+              <a
+                href={item.href}
+                className={cn(
+                  "font-manrope font-[800] text-md",
+                  item.isActive 
+                    ? "text-[#2ED3B7]" 
+                    : cn(themeClasses.textSecondary, "hover:" + themeClasses.text, transitions.default)
+                )}
+              >
                 {item.name}
               </a>
             </div>
@@ -152,7 +144,7 @@ export function Header({ isDarkMode, onThemeToggle }: HeaderProps) {
             
             {/* Mobile Navigation */}
             <nav className="flex flex-col space-y-4 mt-6 pr-2 pl-2">
-              {navigationItems.map((item) => (
+              {NAVIGATION_ITEMS.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}

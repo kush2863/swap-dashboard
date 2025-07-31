@@ -1,34 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { TokenSelector } from "./TokenSelector"
 import { cn } from "@/lib/utils"
 import { themeColors, transitions } from "@/lib/theme"
-
-// Add ethereum type definition
-declare global {
-  interface Window {
-    ethereum?: {
-      request: (args: { method: string; params?: any[] }) => Promise<any>
-      on: (event: string, callback: (params: any) => void) => void
-      removeListener: (event: string, callback: (params: any) => void) => void
-    }
-  }
-}
-
-interface TokenInputProps {
-  isDarkMode: boolean
-  label: string
-  placeholder?: string
-  value?: string
-  onChange?: (value: string) => void
-  tokenName?: string
-  chainName?: string
-  onTokenSelect?: () => void
-  onConnectWallet?: () => void
-  showConnectWallet?: boolean
-  isWalletConnected?: boolean
-  walletAddress?: string
-}
+import { TokenInputProps } from "@/lib/types"
+import { WALLET_CONSTANTS, API_ENDPOINTS, ERROR_MESSAGES } from "@/lib/constants"
 
 export function TokenInput({
   isDarkMode,
@@ -46,41 +22,41 @@ export function TokenInput({
 }: TokenInputProps) {
   const themeClasses = isDarkMode ? themeColors.dark : themeColors.light
   const [inputValue, setInputValue] = useState(value)
-  const [balance, setBalance] = useState<string>("0.00")
+  const [balance, setBalance] = useState<string>(WALLET_CONSTANTS.DEFAULT_BALANCE)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
     setInputValue(newValue)
     onChange?.(newValue)
-  }
+  }, [onChange])
 
-  const fetchBalance = async (address: string) => {
+  const fetchBalance = useCallback(async (address: string) => {
     if (typeof window !== 'undefined' && window.ethereum && address) {
       try {
         const balance = await window.ethereum.request({
-          method: 'eth_getBalance',
+          method: API_ENDPOINTS.GET_BALANCE,
           params: [address, 'latest']
         })
         
         // Convert from wei to ETH (1 ETH = 10^18 wei)
-        const balanceInEth = (parseInt(balance, 16) / Math.pow(10, 18)).toFixed(4)
+        const balanceInEth = (parseInt(balance, 16) / Math.pow(10, WALLET_CONSTANTS.ETH_DECIMALS)).toFixed(4)
         setBalance(balanceInEth)
       } catch (error) {
-        console.error('Error fetching balance:', error)
-        setBalance("0.00")
+        console.error(ERROR_MESSAGES.BALANCE_FETCH_FAILED, error)
+        setBalance(WALLET_CONSTANTS.DEFAULT_BALANCE)
       }
     }
-  }
+  }, [])
 
   useEffect(() => {
     if (isWalletConnected && walletAddress) {
       fetchBalance(walletAddress)
     } else {
-      setBalance("0.00")
+      setBalance(WALLET_CONSTANTS.DEFAULT_BALANCE)
     }
-  }, [isWalletConnected, walletAddress])
+  }, [isWalletConnected, walletAddress, fetchBalance])
 
-  const handleConnectWallet = async () => {
+  const handleConnectWallet = useCallback(async () => {
     if (onConnectWallet) {
       onConnectWallet()
     } else {
@@ -88,22 +64,27 @@ export function TokenInput({
       if (typeof window !== 'undefined' && window.ethereum) {
         try {
           const accounts = await window.ethereum.request({ 
-            method: 'eth_requestAccounts' 
+            method: API_ENDPOINTS.ETHEREUM_RPC 
           })
           console.log('Connected accounts:', accounts)
         } catch (error) {
-          console.error('Error connecting wallet:', error)
+          console.error(ERROR_MESSAGES.CONNECTION_FAILED, error)
         }
       } else {
-        alert('Please install MetaMask or another Web3 wallet')
+        alert(ERROR_MESSAGES.WALLET_NOT_FOUND)
       }
     }
-  }
+  }, [onConnectWallet])
 
-  const formatAddress = (address: string) => {
+  const formatAddress = useCallback((address: string) => {
     if (!address) return ""
-    return `${address.slice(0, 6)}...${address.slice(-4)}`
-  }
+    return `${address.slice(0, WALLET_CONSTANTS.ADDRESS_PREFIX_LENGTH)}...${address.slice(-WALLET_CONSTANTS.ADDRESS_SUFFIX_LENGTH)}`
+  }, [])
+
+  // Memoize the balance display text
+  const balanceDisplay = useMemo(() => {
+    return isWalletConnected ? `Balance ${balance} ETH` : "Balance -"
+  }, [isWalletConnected, balance])
 
   return (
     <div className={cn(
@@ -132,11 +113,6 @@ export function TokenInput({
         "",
         themeClasses.borderSecondary
       )}>
-        {/* Circular border pattern overlay */}
-        {/* <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-2 right-2 w-4 h-4 rounded-full border border-dashed border-white/20"></div>
-        </div> */}
-        
         <div className="flex items-center justify-between relative">
           <div className="flex-1 min-w-0">
             <input
@@ -152,22 +128,21 @@ export function TokenInput({
               )}
             />
             <div className="ml-2 sm:ml-7 flex-shrink-0 absolute -top-2 md:-top-3 right-0 h-[200px] ">
-            <TokenSelector
-              isDarkMode={isDarkMode}
-              tokenName={tokenName}
-              chainName={chainName}
-              onSelect={onTokenSelect}
-            />
-          </div>
-            <hr className="my-2 border-white/10 mt-8  md:mt-10 md:w-[420px] w-40"  />
+              <TokenSelector
+                isDarkMode={isDarkMode}
+                tokenName={tokenName}
+                chainName={chainName}
+                onSelect={onTokenSelect}
+              />
+            </div>
+            <hr className="my-2 border-white/10 mt-8 md:mt-10 md:w-[420px] w-40" />
             <div className="flex items-center justify-between mt-10 px-5">
               <span className={cn(themeClasses.textSecondary, "text-xs sm:text-sm font-manrope")}>USD 0</span>
               <span className={cn(themeClasses.textSecondary, "text-xs sm:text-sm font-manrope")}>
-                {isWalletConnected ? `Balance ${balance} ETH` : "Balance -"}
+                {balanceDisplay}
               </span>
             </div>
           </div>
-          
         </div>
       </div>
     </div>

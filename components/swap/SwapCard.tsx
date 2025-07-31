@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { TokenInput } from "./TokenInput"
 import { TokenIcon } from "./TokenIcon"
@@ -6,26 +6,41 @@ import { Settings, RefreshCw, ArrowUpDown, ChevronDown, Menu, MoreHorizontal } f
 import { cn } from "@/lib/utils"
 import { themeColors, transitions } from "@/lib/theme"
 import { useWallet } from "@/hooks/useWallet"
+import { SwapCardProps } from "@/lib/types"
+import { SUPPORTED_TOKENS } from "@/lib/constants"
 import Image from "next/image"
-
-interface SwapCardProps {
-  isDarkMode: boolean
-  activeTab: string
-  onSwapDirection?: () => void
-  onSwap?: () => void
-}
-
-const cryptoTokens = [
-  "APTOS", "ZKSYNC",  "BSC", "polygon", "arbitrum", "avalanche", "ethereum", "solana", "sui"]
 
 export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: SwapCardProps) {
   const themeClasses = isDarkMode ? themeColors.dark : themeColors.light
   const { isWalletConnected, walletAddress, connectWallet } = useWallet()
 
+  // Memoize the token icons to prevent unnecessary re-renders
+  const tokenIcons = useMemo(() => (
+    SUPPORTED_TOKENS.map((token, index) => (
+      <div key={`${token}-${index}`}>
+        <TokenIcon
+          token={token}
+          size={20}
+          className="flex-shrink-0 md:hidden"
+        />
+        <TokenIcon
+          token={token}
+          size={28}
+          className="flex-shrink-0 hidden md:block lg:hidden"
+        />
+        <TokenIcon
+          token={token}
+          size={32}
+          className="flex-shrink-0 hidden lg:block"
+        />
+      </div>
+    ))
+  ), [])
+
   return (
     <div className={cn(
       themeClasses.cardBg,
-      "rounded-b-2xl rounded-r-2xl p-3 sm:p-4 md:p-6 w-full ",
+      "rounded-b-2xl rounded-r-2xl p-3 sm:p-4 md:p-6 w-full",
       themeClasses.border
     )}>
       {/* Header */}
@@ -48,44 +63,24 @@ export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: Swa
       {/* Token Icons */}
       <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-6 px-1 sm:px-2">
         <div className="flex items-center space-x-1 sm:space-x-2 md:gap-4 lg:gap-7 gap-2 overflow-x-auto">
-          {cryptoTokens.map((token, index) => (
-            <div key={index}>
-            <TokenIcon
-              key={index}
-              token={token}
-              size={20}
-              className="flex-shrink-0 md:hidden"
-            />
-            <TokenIcon
-              key={index+1}
-              token={token}
-              size={28}
-              className="flex-shrink-0 hidden md:block lg:hidden"
-            />
-            <TokenIcon
-              key={index+2}
-              token={token}
-              size={32}
-              className="flex-shrink-0 hidden lg:block"
-            />
-            </div>
-          ))}
+          {tokenIcons}
         </div>
       </div>
 
       {/* Pay From Section */}
       <div className="md:-mb-6 lg:-mb-8">
-      <TokenInput
-        isDarkMode={isDarkMode}
-        label="Pay from"
-        placeholder="0.00"
-        tokenName="Token"
-        chainName="on Chain"
-        onConnectWallet={connectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-      />
+        <TokenInput
+          isDarkMode={isDarkMode}
+          label="Pay from"
+          placeholder="0.00"
+          tokenName="Token"
+          chainName="on Chain"
+          onConnectWallet={connectWallet}
+          isWalletConnected={isWalletConnected}
+          walletAddress={walletAddress}
+        />
       </div>
+      
       {/* Swap Direction Button */}
       <div className="flex justify-center -mt-4 md:-mt-5 lg:relative">
         <Button
@@ -106,17 +101,18 @@ export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: Swa
 
       {/* Receive To Section */}
       <div className="md:mt-5 lg:mt-7"> 
-      <TokenInput
-        isDarkMode={isDarkMode}
-        label="Receive to"
-        placeholder="0.00"
-        tokenName="Token"
-        chainName="on Chain"
-        onConnectWallet={connectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-      />
+        <TokenInput
+          isDarkMode={isDarkMode}
+          label="Receive to"
+          placeholder="0.00"
+          tokenName="Token"
+          chainName="on Chain"
+          onConnectWallet={connectWallet}
+          isWalletConnected={isWalletConnected}
+          walletAddress={walletAddress}
+        />
       </div>
+      
       {/* Swap Button */}
       <Button 
         variant="primary" 

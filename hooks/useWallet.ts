@@ -1,13 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { EthereumProvider, WalletState } from '@/lib/types'
+import { WALLET_CONSTANTS, API_ENDPOINTS, ERROR_MESSAGES } from '@/lib/constants'
 
 // Add ethereum type definition
 declare global {
   interface Window {
-    ethereum?: {
-      request: (args: { method: string; params?: any[] }) => Promise<any>
-      on: (event: string, callback: (params: any) => void) => void
-      removeListener: (event: string, callback: (params: any) => void) => void
-    }
+    ethereum?: EthereumProvider
   }
 }
 
@@ -15,11 +13,11 @@ export function useWallet() {
   const [isWalletConnected, setIsWalletConnected] = useState(false)
   const [walletAddress, setWalletAddress] = useState("")
 
-  const connectWallet = async () => {
+  const connectWallet = useCallback(async () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ 
-          method: 'eth_requestAccounts' 
+          method: API_ENDPOINTS.ETHEREUM_RPC 
         })
         if (accounts && accounts.length > 0) {
           setWalletAddress(accounts[0])
@@ -27,22 +25,22 @@ export function useWallet() {
           console.log('Wallet connected:', accounts[0])
         }
       } catch (error) {
-        console.error('Error connecting wallet:', error)
+        console.error(ERROR_MESSAGES.CONNECTION_FAILED, error)
       }
     } else {
-      alert('Please install MetaMask or another Web3 wallet')
+      alert(ERROR_MESSAGES.WALLET_NOT_FOUND)
     }
-  }
+  }, [])
 
-  const disconnectWallet = () => {
+  const disconnectWallet = useCallback(() => {
     setWalletAddress("")
     setIsWalletConnected(false)
-  }
+  }, [])
 
-  const formatAddress = (address: string) => {
+  const formatAddress = useCallback((address: string) => {
     if (!address) return ""
-    return `${address.slice(0, 6)}...${address.slice(-4)}`
-  }
+    return `${address.slice(0, WALLET_CONSTANTS.ADDRESS_PREFIX_LENGTH)}...${address.slice(-WALLET_CONSTANTS.ADDRESS_SUFFIX_LENGTH)}`
+  }, [])
 
   // Listen for account changes
   useEffect(() => {
