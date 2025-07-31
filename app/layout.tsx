@@ -17,6 +17,20 @@ const urbanist = Urbanist({
 export const metadata: Metadata = {
   title: "Kana Labs - Cryptocurrency Swap Interface",
   description: "Experience seamless cryptocurrency swapping with our advanced platform. Support for same-chain and cross-chain swaps with a modern, responsive interface.",
+  icons: {
+    icon: [
+      {
+        url: "/logo.svg",
+        type: "image/svg+xml",
+      },
+      {
+        url: "/favicon.ico",
+        sizes: "any",
+      },
+    ],
+    apple: "/logo.svg",
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

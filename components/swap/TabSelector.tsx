@@ -26,7 +26,7 @@ export function TabSelector({ isDarkMode, activeTab, onTabChange }: TabSelectorP
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
           className={cn(
-            "flex-1 flex items-center   justify-center rounded-t-xl sm:rounded-t-2xl space-x-1 sm:space-x-2 py-3 sm:py-5 px-2 sm:px-5 border",
+            "flex-1 flex items-center   justify-center rounded-t-xl sm:rounded-t-2xl space-x-1 sm:space-x-2 border-b-0 py-3 sm:py-5 px-2 sm:px-5 border",
             transitions.default,
             index === 0 ? "rounded-t-xl sm:rounded-t-2xl border-b-0" : "rounded-t-xl sm:rounded-t-2xl border-b-0",
             activeTab === tab.id
