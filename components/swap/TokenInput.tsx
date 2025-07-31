@@ -135,7 +135,11 @@ export function TokenInput({
                 onSelect={onTokenSelect}
               />
             </div>
-            <hr className="my-2 border-white/10 mt-8 md:mt-10 md:w-[420px] w-40" />
+         
+            <hr className={cn(
+              "my-2 mt-8 md:mt-10 md:w-[420px] w-40",
+              isDarkMode ? "border-white/10" : "border-black"
+            )} />
             <div className="flex items-center justify-between mt-10 px-5">
               <span className={cn(themeClasses.textSecondary, "text-xs sm:text-sm font-manrope")}>USD 0</span>
               <span className={cn(themeClasses.textSecondary, "text-xs sm:text-sm font-manrope")}>
