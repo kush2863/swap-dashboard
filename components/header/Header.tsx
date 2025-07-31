@@ -107,7 +107,7 @@ export function Header({ isDarkMode, onThemeToggle }: HeaderProps) {
         {/* Notifications */}
         <div className="relative">
           <NavigationIcon icon="bell" size={20} className={cn(isDarkMode ? "text-[#a5a5a6]" : "text-[#121518CC]")} />
-          <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#d64f4a] rounded-full"></div>
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#FFB74D] rounded-full"></div>
         </div>
 
         {/* Settings */}
