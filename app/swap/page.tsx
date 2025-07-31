@@ -8,6 +8,7 @@ import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { themeColors } from "@/lib/theme"
 import { useTheme } from "@/contexts/ThemeContext"
+import { SwapType } from "@/lib/types"
 
 export default function SwapPage() {
   const [activeTab, setActiveTab] = useState("same-chain")
@@ -46,7 +47,7 @@ export default function SwapPage() {
           {/* Swap Card */}
           <SwapCard
             isDarkMode={isDarkMode}
-            activeTab={activeTab}
+            activeTab={activeTab as SwapType}
             onSwapDirection={handleSwapDirection}
             onSwap={handleSwap}
           />
