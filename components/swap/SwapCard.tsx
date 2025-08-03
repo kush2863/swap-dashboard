@@ -31,7 +31,7 @@ export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: Swa
         <TokenIcon
           token={token}
           size={32}
-          className="flex-shrink-0 hidden lg:block"
+          className="flex-shrink-0 hidden lg:block  px-[8px] box-content"
         />
       </div>
     ))
@@ -40,8 +40,8 @@ export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: Swa
   return (
     <div className={cn(
       themeClasses.cardBg,
-      "rounded-b-2xl rounded-r-2xl p-3 sm:p-4 md:p-6 w-full",
-      themeClasses.border
+      "rounded-b-2xl rounded-r-2xl p-4 sm:p-4 md:p-[24px] w-full md:w-[536px] md:h-[542px] box-content",
+      "border border-[#FFFFFF1A] border-t-0"
     )}>
       {/* Header */}
       <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-6">
@@ -62,13 +62,13 @@ export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: Swa
 
       {/* Token Icons */}
       <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-6 px-1 sm:px-2">
-        <div className="flex items-center space-x-1 sm:space-x-2 md:gap-4 lg:gap-7 gap-2 overflow-x-auto">
+        <div className="flex items-center gap-3 md:gap-0 sm:space-x-2 md:-ml-4  overflow-x-auto">
           {tokenIcons}
         </div>
       </div>
 
       {/* Pay From Section */}
-      <div className="md:-mb-6 lg:-mb-8">
+      <div className="md:-mb-6 lg:-mb-4 md:mt-4 w-full md:flex md:justify-center md:sitems-center">
         <TokenInput
           isDarkMode={isDarkMode}
           label="Pay from"
@@ -82,13 +82,13 @@ export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: Swa
       </div>
       
       {/* Swap Direction Button */}
-      <div className="flex justify-center -mt-4 md:-mt-5 lg:relative">
+      <div className="flex justify-center -mt-4 md:-mt-2 -top-4 lg:relative">
         <Button
           variant="outline"
           size="sm"
           onClick={onSwapDirection}
           className={cn(
-            "border h-[36px] w-[36px] md:h-[50px] md:w-[50px] lg:h-[60px] lg:w-[60px] z-[9] lg:absolute lg:-top-1",
+            "border h-[36px] w-[36px] md:h-[50px] md:w-[50px] lg:h-[50px] lg:w-[50px] z-[9] lg:absolute",
             isDarkMode ? "bg-[#17181a]" : "bg-white border-[#FCFDFE]",
             themeClasses.borderSecondary,
             "rounded-xl lg:rounded-2xl p-2",
@@ -100,7 +100,7 @@ export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: Swa
       </div>
 
       {/* Receive To Section */}
-      <div className="md:mt-5 lg:mt-7"> 
+      <div className="md:-mb-6 lg:-mb-4 md:mt-4 w-full md:flex md:justify-center md:items-center">
         <TokenInput
           isDarkMode={isDarkMode}
           label="Receive to"
@@ -120,7 +120,7 @@ export function SwapCard({ isDarkMode, activeTab, onSwapDirection, onSwap }: Swa
         onClick={onSwap}
         disabled={!isWalletConnected}
         className={cn(
-          "w-full py-2 sm:py-3 md:py-4 hover:bg-[#00B3B3]/30 hover:text-[#00FFF0] rounded-[12px] md:rounded-[16px] text-sm sm:text-base md:text-lg border border-[#00FFF0] font-manrope font-bold mb-3 sm:mb-4 shadow-[0px_10px_8px_0px_rgba(0,255,255,0.1),0px_4px_8px_0px_rgba(0,0,0,0.15),0px_5px_1px_0px_rgba(14,147,132,1)]",
+          "w-full py-2 sm:py-3 mt-5 md:py-4 hover:bg-[#00B3B3]/30 hover:text-[#00FFF0] rounded-[12px] md:rounded-[16px] text-sm sm:text-base md:text-lg border border-[#00FFF0] font-manrope font-bold mb-3 sm:mb-4 shadow-[0px_10px_8px_0px_rgba(0,255,255,0.1),0px_4px_8px_0px_rgba(0,0,0,0.15),0px_5px_1px_0px_rgba(14,147,132,1)]",
           isDarkMode ? "" : "bg-white text-[#2ED3B7] border-b-0 border hover:bg-[#0E9384]/10",
           !isWalletConnected && "opacity-50 cursor-not-allowed"
         )}

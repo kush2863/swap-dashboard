@@ -1,14 +1,14 @@
 export const themeColors = {
   dark: {
-    background: "bg-[#080a0a]",
-    text: "text-[#ffffff]",
-    textSecondary: "text-[#a5a5a6]",
+    background: "bg-global-2",
+    text: "text-global-5",
+    textSecondary: "text-global-7",
     cardBg: "bg-[#17181A]",
-    inputBg: "bg-[#1d1e20]",
-    border: "border-[#1d1e20]",
-    borderSecondary: "border-[#2d374b]",
-    buttonSecondary: "bg-[#2d374b] hover:bg-[#1d1e20]",
-    headerBorder: "border-[#1d1e20]",
+    inputBg: "bg-global-4",
+    border: "border-[global-4]",
+    borderSecondary: "border-[#ffffff19]",
+    buttonSecondary: "bg-global-4 hover:bg-global-3",
+    headerBorder: "border-global-4",
   },
   light: {
     background: "bg-[#EBEEF2]",
@@ -24,11 +24,7 @@ export const themeColors = {
 }
 
 export const primaryColors = {
-  primary: "bg-[#2ED3B7] hover:bg-[#25B8A0]",
-  primaryText: "text-[#ffffff]",
-  accent: "text-[#2ED3B7]",
-  danger: "bg-[#d64f4a]",
-  success: "bg-[#66bb6a]",
+  primary: "bg-global-1 hover:bg-global-1/80",
 }
 
 export const transitions = {

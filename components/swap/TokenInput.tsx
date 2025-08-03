@@ -88,7 +88,7 @@ export function TokenInput({
 
   return (
     <div className={cn(
-      "mb-3 sm:mb-4 w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl border",
+      "mb-3 sm:mb-4 md:w-[488px] md:h-[136px] box-content md:py-[16px] md:px-[24px] p-3 sm:p-4 rounded-xl sm:rounded-2xl border relative",
       isDarkMode 
         ? "bg-[#111213] border-white/20" 
         : "bg-[#F2F9F9] border-gray-300/50"
@@ -109,12 +109,11 @@ export function TokenInput({
         )}
       </div>
       <div className={cn(
-        "rounded-lg sm:rounded-xl p-3 sm:p-4 relative overflow-hidden",
-        "",
+        "rounded-lg sm:rounded-xl p-3 sm:p-4 relative",
         themeClasses.borderSecondary
       )}>
         <div className="flex items-center justify-between relative">
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 md:-ml-4 ">
             <input
               type="text"
               placeholder={placeholder}
@@ -122,12 +121,13 @@ export function TokenInput({
               onChange={handleInputChange}
               className={cn(
                 "bg-transparent",
-                themeClasses.text,
-                "text-lg sm:text-2xl font-manrope font-semibold w-full outline-none",
-                "placeholder:text-gray-600 placeholder:dark:text-gray-400"
+                "text-lg sm:text-2xl font-manrope font-normal w-full outline-none",
+                isDarkMode ? "placeholder:text-white/20" : "placeholder:text-[#777879]"
               )}
             />
-            <div className="ml-2 sm:ml-7 flex-shrink-0 absolute -top-2 md:-top-3 right-0 h-[200px] ">
+            
+            {/* TokenSelector positioned to avoid border clipping */}
+            <div className="absolute -top-7 md:-top-10 right-0 transform translate-x-1">
               <TokenSelector
                 isDarkMode={isDarkMode}
                 tokenName={tokenName}
@@ -137,10 +137,10 @@ export function TokenInput({
             </div>
          
             <hr className={cn(
-              "my-2 mt-8 md:mt-10 md:w-[420px] w-40",
-              isDarkMode ? "border-white/10" : "border-black"
+              "my-2 mt-3 md:mt-3 md:w-[300px] w-40",
+              "border-global-4"
             )} />
-            <div className="flex items-center justify-between mt-10 px-5">
+            <div className="flex items-center justify-between mt-5    ">
               <span className={cn(themeClasses.textSecondary, "text-xs sm:text-sm font-manrope")}>USD 0</span>
               <span className={cn(themeClasses.textSecondary, "text-xs sm:text-sm font-manrope")}>
                 {balanceDisplay}

@@ -19,7 +19,7 @@ export function TabSelector({ isDarkMode, activeTab, onTabChange }: TabSelectorP
   const themeClasses = isDarkMode ? themeColors.dark : themeColors.light
 
   return (
-    <div className="flex w-full items-center justify-between ">
+    <div className="flex w-full items-center justify-between md:w-[536px]  box-content relative">
       <div className=" flex items-center">
       {tabs.map((tab, index) => (
         <button
@@ -54,7 +54,7 @@ export function TabSelector({ isDarkMode, activeTab, onTabChange }: TabSelectorP
       ))}
       </div>
       {/* Button Icon at the end */}
-      <div className="ml-2 flex-shrink-0">
+      <div className="absolute md:-right-10 -right-5">
         <Image
           src="/assets/swap/Button.svg"
           alt="Settings"

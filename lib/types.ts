@@ -40,9 +40,55 @@ export type ThemeMode = "dark" | "light"
 export interface NavigationItem {
   name: string
   href: string
-  isActive: boolean
   icon: string
 }
+
+// Trading types
+export interface TradingPair {
+  symbol: string
+  name: string
+  icon: string
+  markPrice: string
+  change24h: string
+  oraclePrice: string
+  volume24h: string
+  funding: string
+  nextFunding: string
+}
+
+export interface OrderBookEntry {
+  price: string
+  size: string
+  sum: string
+}
+
+export interface TradeEntry {
+  price: string
+  size: string
+  time: string
+  type: 'buy' | 'sell'
+}
+
+export interface AccountInfo {
+  profile: string
+  balance: string
+  equity: string
+  availableBalance: string
+  unrealizedPnL: string
+}
+
+export interface PositionInfo {
+  liquidationPrice: string
+  value: string
+  margin: string
+  slippage: string
+}
+
+export type TradingTab = 'open' | 'positions' | 'orderHistory' | 'tradeHistory' | 'fundingHistory' | 'depositHistory'
+export type TradingMode = 'isolated' | 'hedge'
+export type OrderType = 'market' | 'limit'
+export type PositionType = 'open' | 'close'
+export type Direction = 'long' | 'short'
 
 // Component props types
 export interface BaseComponentProps {
@@ -73,4 +119,57 @@ export interface SwapCardProps extends BaseComponentProps {
 export interface TabSelectorProps extends BaseComponentProps {
   activeTab: SwapType
   onTabChange: (tab: SwapType) => void
-} 
+}
+
+// Trading component props
+export interface TradingPairHeaderProps extends BaseComponentProps {
+  tradingPair: TradingPair
+  onPairSelect?: () => void
+}
+
+export interface OrderBookProps extends BaseComponentProps {
+  sellOrders: OrderBookEntry[]
+  buyOrders: OrderBookEntry[]
+  currentPrice: string
+  onOrderClick?: (order: OrderBookEntry, type: 'buy' | 'sell') => void
+}
+
+export interface RecentTradesProps extends BaseComponentProps {
+  trades: TradeEntry[]
+}
+
+export interface MarketStatsProps extends BaseComponentProps {
+  high24h: string
+  low24h: string
+  openInterest: string
+  indexPrice: string
+}
+
+export interface TradingTabsProps extends BaseComponentProps {
+  selectedTab: TradingTab
+  onTabChange: (tab: TradingTab) => void
+}
+
+export interface TradingPanelProps extends BaseComponentProps {
+  accountInfo: AccountInfo
+  positionInfo: PositionInfo
+  selectedMode: TradingMode
+  selectedOrderType: OrderType
+  selectedPosition: PositionType
+  selectedDirection: Direction
+  leverage: string
+  price: string
+  amount: string
+  sliderValue: number
+  tpslEnabled: boolean
+  onModeChange: (mode: TradingMode) => void
+  onOrderTypeChange: (type: OrderType) => void
+  onPositionChange: (position: PositionType) => void
+  onDirectionChange: (direction: Direction) => void
+  onLeverageChange: () => void
+  onPriceChange: (price: string) => void
+  onAmountChange: (amount: string) => void
+  onSliderChange: (value: number) => void
+  onTpslToggle: (enabled: boolean) => void
+  onTrade: () => void
+}

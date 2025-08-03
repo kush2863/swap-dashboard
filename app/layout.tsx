@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Urbanist } from "next/font/google";
+import { Manrope, Urbanist, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { ClientLayout } from "@/components/layout/ClientLayout";
@@ -12,6 +12,12 @@ const manrope = Manrope({
 const urbanist = Urbanist({
   variable: "--font-urbanist",
   subsets: ["latin"],
+});
+
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -41,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${manrope.variable} ${urbanist.variable} antialiased font-manrope`}
+        className={`${manrope.variable} ${urbanist.variable} ${dmMono.variable} antialiased font-manrope`}
       >
         <ThemeProvider>
           <ClientLayout>

@@ -8,6 +8,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope);
   --font-mono: var(--font-urbanist);
+  --font-dm-mono: var(--font-dm-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -96,6 +97,31 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  
+  /* Global Colors */
+  --global-bg-1: #00f9a91e;
+  --global-bg-2: #08090a;
+  --global-bg-3: #121313;
+  --global-bg-4: #1c1f1f;
+  --global-bg-5: #66bb6a;
+  --global-bg-6: #ff54541e;
+  
+  --global-text-1: #00fff0;
+  --global-text-2: #66bb6a;
+  --global-text-3: #ef5350;
+  --global-text-4: #ffb74d;
+  --global-text-5: #ffffff;
+  --global-text-6: #ffffff66;
+  --global-text-7: #ffffff99;
+  --global-text-8: #ffffffcc;
+
+  /* Header Colors */
+  --header-bg-1: #ffb74d;
+
+  /* Button Colors */
+  --button-primary: #1c1f1f;
+  --button-accent: #00fff0;
+  --button-border: #ffffff19;
 }
 
 .dark {
@@ -130,6 +156,8 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  
+
 }
 
 @layer base {
@@ -138,5 +166,69 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Global Background */
+  .bg-global-1 {
+    background-color: var(--global-bg-1);
+  }
+  .bg-global-2 {
+    background-color: var(--global-bg-2);
+  }
+  .bg-global-3 {
+    background-color: var(--global-bg-3);
+  }
+  .bg-global-4 {
+    background-color: var(--global-bg-4);
+  }
+  .bg-global-5 {
+    background-color: var(--global-bg-5);
+  }
+  .bg-global-6 {
+    background-color: var(--global-bg-6);
+  }
+
+  /* Global Text */
+  .text-global-1 {
+    color: var(--global-text-1);
+  }
+  .text-global-2 {
+    color: var(--global-text-2);
+  }
+  .text-global-3 {
+    color: var(--global-text-3);
+  }
+  .text-global-4 {
+    color: var(--global-text-4);
+  }
+  .text-global-5 {
+    color: var(--global-text-5);
+  }
+  .text-global-6 {
+    color: var(--global-text-6);
+  }
+  .text-global-7 {
+    color: var(--global-text-7);
+  }
+  .text-global-8 {
+    color: var(--global-text-8);
+  }
+
+  /* Header */
+  .bg-header-1 {
+    background-color: var(--header-bg-1);
+  }
+
+  /* Button */
+  .bg-button-primary {
+    background-color: var(--button-primary);
+  }
+  .text-button-accent {
+    color: var(--button-accent);
+  }
+  .border-button {
+    border-color: var(--button-border);
   }
 }
