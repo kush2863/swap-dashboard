@@ -256,7 +256,7 @@ export default function PerpsPage() {
                     onTabChange={handleTabChange}
                   />
                   <div className={cn(
-                    "flex flex-col gap-[10px] justify-start items-center w-full px-14 py-14 border border-t-0 rounded-t-none rounded-[8px]",
+                    "flex flex-col gap-[10px] justify-start items-center w-full px-14 py-14 border border-t-0 rounded-b-lg",
                     isDarkMode ? "border-[#ffffff19]" : "border-gray-200 bg-white"
                   )}>
                     <span className={cn(

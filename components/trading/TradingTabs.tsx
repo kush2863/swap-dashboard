@@ -1,8 +1,9 @@
+"use client"
 import React from 'react'
 import { TradingTabsProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { themeColors, transitions } from '@/lib/theme'
-
+import Image from 'next/image'
 const TAB_CONFIG = [
   { id: 'open', label: 'Open Orders' },
   { id: 'positions', label: 'Positions' },
@@ -17,9 +18,10 @@ export function TradingTabs({ isDarkMode, selectedTab, onTabChange }: TradingTab
 
   return (
     <div className={cn(
-      "flex flex-row justify-start gap-2 h-[38px] items-center w-full border rounded-t-lg lg:overflow-visible overflow-x-auto", 
+      "flex flex-row justify-start gap-2 h-[38px] items-center w-full border rounded-t-lg lg:overflow-visible overflow-x-auto relative", 
       isDarkMode ? "border-[#ffffff19]" : "border-gray-200 bg-white"
     )}>
+      
             {TAB_CONFIG.map((tab, index) => (
         <div
           key={tab.id}
@@ -54,9 +56,9 @@ export function TradingTabs({ isDarkMode, selectedTab, onTabChange }: TradingTab
           </span>
         </div>
       ))}
-      <div className="flex flex-col justify-start items-center w-auto px-2 py-2 lg:flex-shrink-0 flex-shrink-0">
-        <div className="w-4 h-4 bg-global-7 rounded-full"></div>
-      </div>
+              <div className="md:flex flex-col justify-start items-center w-auto px-2 py-2 lg:flex-shrink-0 flex-shrink-0 absolute right-0 hidden lg:block">
+          <Image   src="/assets/perps/3-dots.svg" width={36} height={36} alt="More options" className="" />
+        </div>
     </div>
   )
 } 
